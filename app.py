@@ -28,7 +28,7 @@ except Exception as e:
     model = None
     scaler = None
 
-@app.route('/predict', methods=['POST'])
+@app.route('/', methods=['GET'])
 def predict():
     """
     Predicts the value of AQI for upcoming concentration of pollutants, coming in a JSON format
