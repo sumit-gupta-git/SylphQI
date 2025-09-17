@@ -79,7 +79,7 @@ if __name__ == '__main__':
     model = p.model_training(df)
     y_pred = model.predict(p.X_test)
 
-    joblib.dump(model,'models/model.pkl')
+    joblib.dump(model,'/home/sumit/SylphQI/models/rf_model.pkl')
     
     mae, rmse, r2_score = p.evaluate_model(p.y_test, y_pred)
     print(mae, rmse, r2_score)

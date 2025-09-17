@@ -23,13 +23,16 @@ class FeatureEngineer:
                 df_engineered['year'] = df_engineered['Date'].dt.year
                 df_engineered['month'] = df_engineered['Date'].dt.month
                 df_engineered['day'] = df_engineered['Date'].dt.day
+                df_engineered['weekday'] = df_engineered['Date'].dt.weekday
+                df_engineered['is_weekkend'] = 1 if df_engineered['weekday']>=5 else 0
+                df_engineered['week_of_the_year'] = df_engineered['Date'].dt.isocalendar()[1]
         
         logger.info("Date features created")
         return df_engineered
     
     def drop_unnecessary_cols(self, df):
         df_engineered = df.copy()
-        for col in ['City', 'State', 'Date', 'Month', 'Season','Wind_Direction']:
+        for col in ['City', 'State', 'Visibility_km','Date', 'Month', 'Season','Wind_Direction']:
             if col in df.columns:
                 df_engineered = df_engineered.drop(col, axis=1)
             else:

@@ -6,8 +6,8 @@ import warnings
 warnings.filterwarnings('ignore')
 
 from flask import Flask, request, jsonify
-from data_preprocessing import  Preprocessor
-from feature_engineering import FeatureEngineer
+from src.data_preprocessing import  Preprocessor
+from src.feature_engineering import FeatureEngineer
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
