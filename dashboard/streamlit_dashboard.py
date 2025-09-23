@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 import time
 from streamlit_autorefresh import st_autorefresh
 
+
 # Page configuration
 st.set_page_config(
     page_title="AQI Prediction Dashboard",
