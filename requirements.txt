@@ -9,3 +9,5 @@ prophet
 flask
 flask_cors
 requests
+streamlit
+plotly
