@@ -10,4 +10,5 @@ flask
 flask_cors
 requests
 streamlit
+streamlit_autorefresh
 plotly
