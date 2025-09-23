@@ -24,15 +24,15 @@ class FeatureEngineer:
                 df_engineered['month'] = df_engineered['Date'].dt.month
                 df_engineered['day'] = df_engineered['Date'].dt.day
                 df_engineered['weekday'] = df_engineered['Date'].dt.weekday
-                df_engineered['is_weekkend'] = 1 if df_engineered['weekday']>=5 else 0
-                df_engineered['week_of_the_year'] = df_engineered['Date'].dt.isocalendar()[1]
-        
+                df_engineered['is_weekkend'] = (df_engineered['weekday'] >= 5).astype(int)
+                df_engineered['week_of_the_year'] = df_engineered['Date'].dt.isocalendar().week
+
         logger.info("Date features created")
         return df_engineered
     
     def drop_unnecessary_cols(self, df):
         df_engineered = df.copy()
-        for col in ['City', 'State', 'Visibility_km','Date', 'Month', 'Season','Wind_Direction']:
+        for col in ['City', 'State','Date', 'Month', 'Season','Wind_Direction']:
             if col in df.columns:
                 df_engineered = df_engineered.drop(col, axis=1)
             else:
@@ -40,19 +40,7 @@ class FeatureEngineer:
         logger.info("Unnecessary features successfully dropped")
         return df_engineered
     
-    def numerical_scaler(self, df):
-        #scaling the numerical data
-        from sklearn.preprocessing import StandardScaler
-        scaler = StandardScaler()
 
-        df_engineered = df.copy()
-
-        numerical_features = [feature for feature in df.columns if df[feature].dtype != 'object' and feature!='Date']
-        num_encoded = scaler.fit_transform(df[numerical_features])
-        df_engineered = pd.DataFrame(num_encoded, columns=scaler.get_feature_names_out())
-
-        logger.info('Features scaled successfully')
-        return df_engineered
     
     #master function
     def apply(self, df):
@@ -66,7 +54,6 @@ if __name__ == "__main__":
 
     f = FeatureEngineer()
     training_data = pd.read_csv('/home/sumit/SylphQI/data/India_Cities_AQI_Weather_2015_2024_Combined.csv')
-    scaled_data = f.numerical_scaler(training_data)
 
-    joblib.dump(f.numerical_scaler, 'models/scaler.pkl')
-    print(scaled_data)
+    df = f.apply(training_data)
+    print(df)

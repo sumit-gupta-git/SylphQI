@@ -11,9 +11,13 @@ import threading
 import time
 from prophet import Prophet
 
-from data_preprocessing import Preprocessor
-from feature_engineering import FeatureEngineer
-from prediction_service import Prediction
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
+from src.data_preprocessing import Preprocessor
+from src.feature_engineering import FeatureEngineer
+from src.prediction_service import Prediction
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -239,7 +243,6 @@ class RealTimeDataCollector:
 
             combined_data = self.combine_and_predict_aqi(city_name, pollutant_data, weather_data)
 
-            #important thing!!
             if combined_data:
                 # Store latest data
                 self.latest_data[city_name] = combined_data
@@ -321,7 +324,7 @@ background_thread = threading.Thread(target=background_data_collection, daemon=T
 background_thread.start()
 
 # API Routes
-@app.route('/api/realtime/all', methods=['GET'])
+@app.route('/realtime/all', methods=['GET'])
 def get_realtime_all_cities():
     try:
         current_data = data_collector.collect_realtime_data()
@@ -338,7 +341,7 @@ def get_realtime_all_cities():
         logger.error(f"Error in get_realtime_all_cities: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/realtime/<city_name>', methods=['GET'])
+@app.route('/realtime/<city_name>', methods=['GET'])
 def get_realtime_city_data(city_name):
     try:
         if city_name not in Config.CITIES:
@@ -363,7 +366,7 @@ def get_realtime_city_data(city_name):
         logger.error(f"Error in get_realtime_city_data: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/trends/<city_name>/<parameter>', methods=['GET'])
+@app.route('/trends/<city_name>/<parameter>', methods=['GET'])
 def get_trends(city_name, parameter):
     try:
         if city_name not in Config.CITIES:
@@ -391,7 +394,7 @@ def get_trends(city_name, parameter):
         logger.error(f"Error in get_trends: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/historical/<city_name>', methods=['GET'])
+@app.route('/historical/<city_name>', methods=['GET'])
 def get_historical_data(city_name):
     try:
         if city_name not in Config.CITIES:
@@ -414,7 +417,7 @@ def get_historical_data(city_name):
         logger.error(f"Error in get_historical_data: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/api/health', methods=['GET'])
+@app.route('/health', methods=['GET'])
 #Health check end point
 def health_check():
     return jsonify({
@@ -428,13 +431,13 @@ def health_check():
 @app.route('/', methods=['GET'])
 def index():
     return jsonify({
-        "message": "AQI Prediction API",
+        "message": "SylphQI Prediction",
         "endpoints": {
-            "/api/realtime/all": "Get real-time data for all cities",
-            "/api/realtime/<city>": "Get real-time data for specific city",
-            "/api/trends/<city>/<parameter>": "Get trend analysis",
-            "/api/historical/<city>": "Get historical data",
-            "/api/health": "Health check"
+            "/realtime/all": "Get real-time data for all cities",
+            "/realtime/<city>": "Get real-time data for specific city",
+            "/trends/<city>/<parameter>": "Get trend analysis",
+            "/historical/<city>": "Get historical data",
+            "/health": "Health check"
         }
     })
 

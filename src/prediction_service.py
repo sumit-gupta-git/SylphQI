@@ -71,7 +71,6 @@ if __name__ == '__main__':
     #feature_engineering
     fe = FeatureEngineer()
     df = fe.apply(df)
-    df = fe.numerical_scaler(df)
     
 
     #model training
