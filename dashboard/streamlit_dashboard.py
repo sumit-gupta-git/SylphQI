@@ -31,7 +31,7 @@ WEATHER_PARAMS = ["Max_Temperature_C", "Min_Temperature_C", "Avg_Temperature_C",
 # AQI Categories
 AQI_CATEGORIES = {
     (0, 50): {"category": "Good", "color": "#00E400", "description": "Air quality is satisfactory"},
-    (51, 100): {"category": "Moderate", "color": "#FFFF00", "description": "Air quality is acceptable"},
+    (51, 100): {"category": "Moderate", "color": "#ffd60a", "description": "Air quality is acceptable"},
     (101, 150): {"category": "Unhealthy for Sensitive Groups", "color": "#FF7E00", "description": "Sensitive people may experience health effects"},
     (151, 200): {"category": "Unhealthy", "color": "#FF0000", "description": "Everyone may experience health effects"},
     (201, 300): {"category": "Very Unhealthy", "color": "#8F3F97", "description": "Health alert for everyone"},
@@ -257,7 +257,7 @@ def main():
     st.markdown("""
     <style>
     .metric-card {
-        background-color: #f0f2f6;
+        background-color: #fefae0;
         padding: 20px;
         border-radius: 10px;
         border-left: 5px solid #1f77b4;
@@ -270,7 +270,7 @@ def main():
     """, unsafe_allow_html=True)
     
     # Header
-    st.title("🌫️ Real-Time AQI Prediction Dashboard")
+    st.title("🌫️ SylphQI ")
     st.markdown("*Monitoring air quality and weather patterns for major Indian cities*")
     
     # Sidebar configuration
